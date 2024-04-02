@@ -1,0 +1,13 @@
+<ion-card>
+  <div class="saved">
+    <ion-icon name="heart"></ion-icon>
+  </div>
+  
+  <div class="card-image"  [style.background-image]="'url(https://travicons.com/test-here/'+ (excursion?.['pictures'] | returnFirstUrl) + ')' "></div>
+  <div class="details">
+    <div class="price">${{excursion?.price}}</div>
+    <div class="name">{{excursion?.title}}</div>
+    <div class="location"><ion-icon name="location-outline"></ion-icon> {{excursion?.CityName}}</div>
+  </div>
+ 
+</ion-card>

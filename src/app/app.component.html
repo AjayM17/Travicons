@@ -1,3 +1,4 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <img [style.display]="showSplashLoader ? 'block':'none' " src="../assets/images/loading.gif"/>
+  <ion-router-outlet [style.display]="!showSplashLoader ? 'block':'none' "></ion-router-outlet>
 </ion-app>

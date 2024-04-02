@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <div class="header-container">
+      <ion-label>Vehicles</ion-label>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let vehicle of vehicleList">
+    <div class="card-image" [style.background-image]="'url(https://travicons.com/test-here/'+ vehicle['picture']  + ')' "></div>
+    <ion-card-header>
+      <ion-card-title style="font-size: 16px;">{{vehicle['CarName']}}</ion-card-title>
+      <!-- <ion-card-subtitle>{{excursion.CityName}}</ion-card-subtitle> -->
+    </ion-card-header>
+  
+    <ion-card-content>
+      <div [innerHTML]="vehicle['Description']"></div>
+    </ion-card-content>
+    <!-- <div class="rating">
+      <ion-icon name="star"></ion-icon>
+      <ion-icon name="star"></ion-icon>
+      <ion-icon name="star"></ion-icon>
+      <ion-icon name="star-outline"></ion-icon>
+      <ion-icon name="star-outline"></ion-icon>
+      <div>({{excursion.max_people}})</div>
+    </div> -->
+   
+    <div class="details">
+     
+      <div class="sub-detail">
+        <ion-icon name="people-outline"></ion-icon>
+        <span> Passsenger {{vehicle['passenger']}}  </span>
+        <span style="    margin: 0px 8px; font-weight: 600;">|</span>
+        <ion-icon name="bag-outline"></ion-icon>
+        <span> Luggage {{vehicle['luggage']}} </span>
+      </div>
+    
+    </div>
+    <div class="button-container">
+      <ion-button shape="round" expand="full" (click)="bookCar(vehicle)"> Select Car</ion-button>
+      <div class="price">
+        ${{vehicle['price']}}
+       </div>
+    </div>
+
+  </ion-card>
+</ion-content>

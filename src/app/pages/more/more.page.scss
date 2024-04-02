@@ -1,0 +1,31 @@
+ion-content{
+    --padding-start: 8px;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    --padding-end: 8px;
+}
+.list{
+    .heading{
+        font-size: 18px;
+        color: var(--s-text-gray-color);
+        padding: 10px 12px;
+        border-bottom: 1px solid #ddd;
+        margin-top: 18px;
+        font-weight: 400;
+    
+    }
+    .list-item{
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        font-size: 13px;
+        color:var(--text-grey-color-2);
+        .sub-heading{
+            font-size: 16px;
+            margin-left: 18px;
+        }
+        ion-icon{
+            font-size:22px;
+        }
+    }
+}

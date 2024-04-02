@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Travicons</string>
+    <string name="title_activity_main">Travicons</string>
+    <string name="package_name">com.travicons</string>
+    <string name="custom_url_scheme">com.travicons</string>
+    <string name="publishable_key">pk_test_51LPrDmBsD3QgDKZdttdn4P1p8uInSwt0f0vtLAfzLc0vDHsykEdUluCnJacAqhxPdjfQrjZM4cGbIg2cnsVyulCS00KWhK3tMj</string>
+
+</resources>

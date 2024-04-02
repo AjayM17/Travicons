@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="header-container">
+      <img src="../../../assets/images/logo.png"/>
+      <ion-label>Excursions</ion-label>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card *ngFor="let excursion of excursions">
+    <div class="card-image" [style.background-image]="'url(https://travicons.com/test-here/'+ (excursion['pictures'] | returnFirstUrl) + ')' "></div>
+    <ion-card-header>
+      <ion-card-title>{{excursion.title}}</ion-card-title>
+      <ion-card-subtitle>{{excursion.CityName}}</ion-card-subtitle>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <div [innerHTML]="excursion.description | trimReadMore"></div>
+    </ion-card-content>
+    <div class="rating">
+      <ion-icon name="star"></ion-icon>
+      <ion-icon name="star"></ion-icon>
+      <ion-icon name="star"></ion-icon>
+      <ion-icon name="star-outline"></ion-icon>
+      <ion-icon name="star-outline"></ion-icon>
+      <div>({{excursion.max_people}})</div>
+    </div>
+   
+    <div class="details">
+     
+      <div class="sub-detail">
+        <ion-icon name="warning-outline"></ion-icon>
+        <span>{{excursion.min_age}} </span>
+        <span style="    margin: 0px 8px; font-weight: 600;">|</span>
+        <ion-icon name="people-outline"></ion-icon>
+        <span>{{excursion.max_people}} </span>
+      </div>
+      <div class="price">
+       ${{excursion.price}} / per person
+      </div>
+    </div>
+
+  </ion-card>
+</ion-content>

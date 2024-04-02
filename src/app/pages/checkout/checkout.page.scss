@@ -1,0 +1,93 @@
+ion-input, ion-select {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    margin-bottom: 18px;
+    margin-top: 14px;
+    color: var(--text-grey-color-2);
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    height: 52px;
+}
+.form-container {
+    padding: 24px;
+    background: white;
+    margin: 12px;
+    border-radius: 10px;
+    .heading {
+        margin: 10px 0px 32px 0px;
+        font-size: 26px;
+        font-weight: 500;
+    }
+
+    ion-label {
+        font-weight: 400;
+        font-size: 16px;
+        color: #4d4d4d;
+    }
+
+
+
+    .flight-time-input{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        height: 52px;
+        padding: 0px 12px;
+        margin-bottom: 18px;
+        margin-top: 14px;
+    }
+}
+
+
+.checkout_btn{
+    --border-radius: 50px;
+    color: white;
+    margin: 4px;
+    min-height: 46px;
+    margin-top: 28px;
+}
+
+.billingInfo{
+    padding: 24px;
+    background: white;
+    margin: 12px;
+    border-radius: 10px;
+    .heading{
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 28px;
+    }
+    .sub-heading{
+        color: #797979;
+        font-weight: 600;
+        font-size: 16px;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 16px 0px;
+    }
+    .detail{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: 14px;
+        margin: 14px 0px;
+        .label-left{
+            color: #797979;
+
+        }
+        .label-right{
+            color: var(--ion-color-primary);
+        }
+    }
+}
+
+.extra-image{
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

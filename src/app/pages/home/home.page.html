@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="header-container">
+      <img src="../../../assets/images/logo.png"/>
+      <ion-label>Home</ion-label>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div>
+    <app-registration [oneWayPickUpLocations]="pickUpLocations"></app-registration>
+  </div>
+  <div class="heading-container">
+    <div class="heading">Our Services</div>
+    <!-- <span class="more">See all <ion-icon name="chevron-forward-outline"></ion-icon></span> -->
+  </div>
+
+  <div class="scroll-container" >
+    <ion-card class="small-card" routerLink="/tabs/excursions">
+      <div class="details">
+        <ion-icon name="airplane-outline"></ion-icon>
+        <div class="title">Excursions</div>
+      </div>
+    </ion-card>
+
+    <ion-card class="small-card" routerLink="/tabs/transport">
+      <div class="details">
+        <ion-icon name="car-outline"></ion-icon>
+        <div class="title">Transportation</div>
+      </div>
+    </ion-card>
+  </div>
+
+
+    
+  <div class="heading-container">
+    <div class="heading">Excursions</div>
+    <span class="more" routerLink="/tabs/excursions">See all <ion-icon name="chevron-forward-outline"></ion-icon></span>
+  </div>
+  <div class="scroll-container">
+    <app-card class="medium-card" *ngFor="let excursion of excursions"  [excursion]="excursion">
+    </app-card>
+  </div>
+</ion-content>

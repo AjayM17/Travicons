@@ -1,0 +1,212 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <div class="header-container">
+      <!-- <img src="../../../assets/images/logo.png" /> -->
+      <ion-label>Checkout</ion-label>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="form-container">
+    <form [formGroup]="checkOutForm" (ngSubmit)="checkout()">
+      <div class="heading">Billing Details</div>
+      <div>
+        <ion-label>Airline Name</ion-label>
+        <ion-select formControlName="airLineName">
+          <ion-select-option [value]="flight['AirlineName']"
+            *ngFor="let flight of bookingResponse['flightname']">{{flight['AirlineName']}}</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div>
+        <ion-label>Flight Number</ion-label>
+        <ion-input formControlName="flightNumber" placeholder="Flight Number"></ion-input>
+      </div>
+
+      <div class="flight-time-input">
+        <ion-label>Flight Time</ion-label>
+        <ion-datetime-button datetime="flighttime"></ion-datetime-button>
+      </div>
+
+      <div *ngIf="bookingResponse['bkType'] == 'return'">
+        <ion-label>Return Airline Name</ion-label>
+        <ion-select formControlName="returnAirLineName">
+          <ion-select-option
+            *ngFor="let flight of bookingResponse['returnflightname']">{{flight['AirlineName']}}</ion-select-option>
+        </ion-select>
+      </div>
+
+      <div *ngIf="bookingResponse['bkType'] == 'return'">
+        <ion-label>Return Flight Number</ion-label>
+        <ion-input formControlName="returnFlightNumber" placeholder="Return Flight Number"></ion-input>
+      </div>
+
+      <div *ngIf="bookingResponse['bkType'] == 'return'" class="flight-time-input">
+        <ion-label>Rerurn Flight Time</ion-label>
+        <ion-datetime-button datetime="returnflighttime"></ion-datetime-button>
+      </div>
+
+      <div>
+        <ion-label>First Name</ion-label>
+        <ion-input formControlName="firstName" placeholder="First Name"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Last Name</ion-label>
+        <ion-input formControlName="lastName" placeholder="Last Name"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Email</ion-label>
+        <ion-input formControlName="email" placeholder="Email"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Phone</ion-label>
+        <ion-input formControlName="phone" placeholder="Phone"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>No. of Passenger</ion-label>
+        <ion-input formControlName="noOfPassenger" placeholder="No. of Passenger"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Additional Information</ion-label>
+        <ion-input formControlName="additionalInfo" placeholder="Additonal Information"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Payment Method</ion-label>
+        <ion-select formControlName="paymentOption" label="Payment Method">
+          <ion-select-option>Pay Later</ion-select-option>
+        </ion-select>
+      </div>
+      <ion-button type="submit" expand="block" class="checkout_btn">Checkout</ion-button>
+    </form>
+  </div>
+
+  <div>
+    <div class="billingInfo">
+      <div class="heading">Booking Summary</div>
+      <div>
+        <div class="sub-heading">
+          DEPARTURE
+        </div>
+        <div class="detail">
+          <div class="label-left">From</div>
+          <div class="label-right">{{bookingResponse['locFromText']}}</div>
+        </div>
+        <div class="detail">
+          <div class="label-left">To</div>
+          <div class="label-right">{{bookingResponse['locToText']}}</div>
+        </div>
+        <div class="detail">
+          <div class="label-left">Vehicle</div>
+          <div class="label-right">{{bookingResponse['vehicle']}}</div>
+        </div>
+        <div class="detail">
+          <div class="label-left">Price</div>
+          <div class="label-right">${{bookingResponse['price']}}</div>
+        </div>
+      </div>
+      <div *ngIf="bookingResponse['bkType'] == 'return'" style="margin-top: 36px;">
+        <div class="sub-heading">
+          RETURN
+        </div>
+        <div class="detail">
+          <div class="label-left">From</div>
+          <div class="label-right">{{bookingResponse['retLocFromText']}}</div>
+        </div>
+        <div class="detail">
+          <div class="label-left">To</div>
+          <div class="label-right">{{bookingResponse['retLocToText']}}</div>
+        </div>
+        <div class="detail">
+          <div class="label-left">Vehicle</div>
+          <div class="label-right">{{bookingResponse['vehicle']}}</div>
+        </div>
+        <div class="detail">
+          <div class="label-left">Price</div>
+          <div class="label-right">${{bookingResponse['retprice']}}</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="padding: 16px;">
+      <div style="font-size: 22px;
+      font-weight: 500;">Have a Coupon?</div>
+      <ion-input style="background: white;" placeholder="Coupon code"></ion-input>
+      <ion-button style="color: white;">Apply Coupon</ion-button>
+    </div>
+
+    <div style="padding: 16px;">
+      <div style="font-size: 22px;
+      font-weight: 500;">Extras</div>
+      <ion-grid>
+        <ion-row style="    border-bottom: 1px solid #ddd;
+        padding: 8px 0px;" class="ion-align-items-center" *ngFor="let extra of bookingResponse['extras'] ">
+          <ion-col size="1">
+            <ion-checkbox style="    --checkmark-color: white"></ion-checkbox>
+          </ion-col>
+          <ion-col size="8">
+            <div style="    display: flex;
+            align-items: center;
+            margin-left: 16px;">
+              <div class="extra-image" *ngIf="extra['Picture'] != ''; else bottle_image"
+                [style.background-image]="'url(https://travicons.com/test-here/'+ extra['Picture'] + ')' "> </div>
+              <ng-template #bottle_image>
+                <div class="extra-image" style="background-image: url('https://via.placeholder.com/100x65');">
+                </div>
+              </ng-template>
+              <div style="font-weight: 400;
+              margin-left: 8px;">{{extra.ExtraName}}</div>
+            </div>
+
+          </ion-col>
+          <ion-col size="3">
+            <div>Unit Price</div>
+            <div style="font-weight: 500;">${{extra.UnitPrice}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+
+  </div>
+
+
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime [(ngModel)]="flightTime" id="flighttime" presentation="time"
+        showDefaultButtons="true"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime [(ngModel)]="retunrFlightTime" id="returnflighttime" presentation="time"
+        showDefaultButtons="true"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+<!-- 
+<ion-footer *ngIf="step == 2">
+  <ion-toolbar>
+    <div style="display: flex;
+  justify-content: space-between;">
+      <ion-button style="--color:white" (click)="goToStep(1)">
+        Prev
+      </ion-button>
+      <ion-button style="--color:white" (click)="checkout()">
+        Checkout
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer> -->

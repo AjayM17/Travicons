@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="header-container">
+      <img src="../../../assets/images/logo.png"/>
+      <ion-label>Cart</ion-label>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let excursion of excursions" class="cart-card">
+    <app-card [excursion]="excursion">
+    </app-card>
+  </div>
+</ion-content>
