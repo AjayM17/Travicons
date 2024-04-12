@@ -1,15 +1,78 @@
 <ion-header>
   <ion-toolbar>
     <div class="header-container">
-      <img src="../../../assets/images/logo.png"/>
+      <img src="../../../assets/images/logo.png" />
       <ion-label>Cart</ion-label>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let excursion of excursions" class="cart-card">
-    <app-card [excursion]="excursion">
-    </app-card>
-  </div>
+
+  <ion-card *ngFor="let cart of carts">
+   <ion-card-title>
+    {{cart.excursion_title}} 
+      <ion-icon style="color: var(--ion-color-primary);
+      font-size: 20px;" (click)="toggleDeleteAlert(cart.excursion_id)" id="deleted-alert" name="trash-outline"></ion-icon>
+  </ion-card-title>
+   <ion-card-content>
+    <div> <span style="    margin-right: 14px;"> Hotel:</span> {{cart.hotel_location}}</div>
+    <div>  <span style="    margin-right: 14px;"> Date:</span>  {{cart.date}}</div>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <span> Adults</span>
+        </ion-col>
+        <ion-col>
+          <span> Kids</span>
+        </ion-col>
+        <ion-col>
+          <span>  Pickup Timing</span>
+        </ion-col>
+        <ion-col>
+          <span> Hours</span>
+        </ion-col>
+        <ion-col>
+          <span> Price</span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          {{cart.package_count}}
+        </ion-col>
+        <ion-col>
+          {{cart.kids}}
+        </ion-col>
+        <ion-col>
+          {{cart.pickup_timing}}
+        </ion-col>
+        <ion-col>
+          {{cart.hours}}
+        </ion-col>
+        <ion-col>
+          ${{cart.price}}
+        </ion-col>
+      </ion-row>
+      <ion-row style="font-weight: 500;
+      font-size: 16px;
+      border-top: 1px solid #ddd;
+      padding-top: 8px;
+      margin-top: 10px;">
+        <ion-col size="6">
+          Total Price
+        </ion-col>
+        <ion-col  size="6">
+         ${{ getTotalprice(cart)}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+   </ion-card-content>
+  </ion-card>
+  <ion-button *ngIf="carts.length != 0" routerLink="/excursion-checkout" expand="block" style="--border-radius: 50px; margin: 26px 26px;    color: white;">Checkout  ${{net_total}}</ion-button>
 </ion-content>
+
+<ion-alert
+  [isOpen]=showAlert
+  header="Do you want to delete?"
+  [buttons]="alertButtons"
+></ion-alert>

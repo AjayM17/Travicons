@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <div class="header-container">
+      <ion-label>{{contact.heading}}</ion-label>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <div class="text-container">
+      <h2 style="text-align: center;">{{contact.form_heading}} </h2>
+      <p style="margin: 24px 0px;">{{contact.form_text}}</p>
+    </div>
+    <form [formGroup]="contactForm" (ngSubmit)="submitForm()">
+      <div>
+        <ion-label>Name</ion-label>
+        <ion-input formControlName="name" placeholder="Name"></ion-input>
+      </div>
+      <div>
+        <ion-label>Email</ion-label>
+        <ion-input formControlName="email" placeholder="Email"></ion-input>
+      </div>
+      <div>
+        <ion-label>Phone</ion-label>
+        <ion-input formControlName="phone" placeholder="Phone"></ion-input>
+      </div>
+      <div>
+        <ion-label>Message</ion-label>
+        <ion-textarea formControlName="message" placeholder="Type something here"></ion-textarea>
+      </div>
+    <ion-button type="submit" expand="block" class="checkout_btn">Send Message</ion-button>
+    </form>
+    <div class="contact_details">
+      <h4>Contact Details</h4>
+      <div class="info">
+        <ion-icon name="call-outline"></ion-icon>
+        <div>
+          Phone: <span>{{contact.phone}}</span>
+        </div>
+      </div>
+      <div class="info">
+        <ion-icon name="mail-open-outline"></ion-icon>
+        <div>
+          Phone: <span>{{contact.email}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

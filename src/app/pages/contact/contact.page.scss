@@ -1,0 +1,51 @@
+.container {
+    background: white;
+    padding: 28px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    color: var(--text-grey-color-1);
+    margin: 40px 16px 16px 10px;
+}
+
+ion-input,
+ion-textarea {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    margin-bottom: 18px;
+    margin-top: 14px;
+    color: var(--text-grey-color-2);
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    height: 52px;
+}
+.contact_details {
+    padding: 16px;
+    background: #f9f8fe;
+    border-radius: 3px;
+    border: 5px solid #ffffff;
+    box-shadow: 0px 0px 29px 0px rgba(102, 102, 102, 0.1);
+    margin-top: 30px;
+    .info {
+        display: flex;
+        align-items: center;
+       
+        margin-top: 18px;
+        ion-icon {
+            box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            color: var(--ion-color-primary);
+            margin-right: 18px;
+        }
+        span{
+            color: var(--ion-color-primary);
+        }
+    }
+}
+
+.checkout_btn {
+    --border-radius: 50px;
+    color: white;
+    margin: 4px;
+    min-height: 46px;
+    margin-top: 28px;
+}

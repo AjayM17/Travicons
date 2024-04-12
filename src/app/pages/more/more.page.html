@@ -1,13 +1,13 @@
 <ion-header>
   <ion-toolbar>
     <div class="header-container">
-      <img src="../../../assets/images/logo.png"/>
+      <img src="../../../assets/images/logo.png" />
       <ion-label>More</ion-label>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <div class="list">
     <div class="heading">My account</div>
     <div class="list-item">
@@ -42,15 +42,15 @@
 
   <div class="list">
     <div class="heading">Information</div>
-    <div class="list-item">
+    <div class="list-item" routerLink="/contact">
       <ion-icon name="chatbubbles-outline"></ion-icon>
-      <div class="sub-heading">Help Center</div>
+      <div class="sub-heading">Contact Us</div>
     </div>
     <div class="list-item">
       <ion-icon name="shield-checkmark-outline"></ion-icon>
       <div class="sub-heading"> Privacy Policy</div>
     </div>
-    <div class="list-item">
+    <div class="list-item" routerLink="/about-us">
       <ion-icon name="people-outline"></ion-icon>
       <div class="sub-heading"> About Us</div>
     </div>

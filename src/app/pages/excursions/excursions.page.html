@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card *ngFor="let excursion of excursions">
+  <ion-card *ngFor="let excursion of excursions" [routerLink]="['/excursion-detail', excursion.slug]">
     <div class="card-image" [style.background-image]="'url(https://travicons.com/test-here/'+ (excursion['pictures'] | returnFirstUrl) + ')' "></div>
     <ion-card-header>
       <ion-card-title>{{excursion.title}}</ion-card-title>
@@ -37,7 +37,7 @@
         <span>{{excursion.max_people}} </span>
       </div>
       <div class="price">
-       ${{excursion.price}} / per person
+       ${{excursion.price}} / per <span *ngIf="excursion.is_yacht == '0'; else other_content">person</span> <ng-template #other_content>hour</ng-template>
       </div>
     </div>
 

@@ -7,10 +7,11 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CutomPipe } from './pipes/cutom.pipe';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 @NgModule({
   declarations: [AppComponent, CutomPipe],
-  imports: [BrowserModule, IonicModule.forRoot({mode:'ios'}), AppRoutingModule,HttpClientModule],
+  imports: [BrowserModule, IonicStorageModule.forRoot(), IonicModule.forRoot({mode:'ios'}), AppRoutingModule,HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

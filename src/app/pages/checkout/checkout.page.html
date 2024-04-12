@@ -4,7 +4,6 @@
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
     <div class="header-container">
-      <!-- <img src="../../../assets/images/logo.png" /> -->
       <ion-label>Checkout</ion-label>
     </div>
   </ion-toolbar>
@@ -72,18 +71,19 @@
 
       <div>
         <ion-label>No. of Passenger</ion-label>
-        <ion-input formControlName="noOfPassenger" placeholder="No. of Passenger"></ion-input>
+        <ion-input formControlName="noOfPassenger" placeholder="No. of Passenger" (change)="calculatePriceWithExtra()"></ion-input>
       </div>
 
       <div>
         <ion-label>Additional Information</ion-label>
-        <ion-input formControlName="additionalInfo" placeholder="Additonal Information"></ion-input>
+        <ion-input formControlName="additionalInfo" placeholder="Additional Information"></ion-input>
       </div>
 
       <div>
         <ion-label>Payment Method</ion-label>
         <ion-select formControlName="paymentOption" label="Payment Method">
-          <ion-select-option>Pay Later</ion-select-option>
+          <ion-select-option value="Stripe">Stripe</ion-select-option>
+          <ion-select-option value="Pay Later">Pay Later</ion-select-option>
         </ion-select>
       </div>
       <ion-button type="submit" expand="block" class="checkout_btn">Checkout</ion-button>
@@ -97,19 +97,19 @@
         <div class="sub-heading">
           DEPARTURE
         </div>
-        <div class="detail">
+        <div class="detail" style="margin: 14px 0px;">
           <div class="label-left">From</div>
           <div class="label-right">{{bookingResponse['locFromText']}}</div>
         </div>
-        <div class="detail">
+        <div class="detail" style="margin: 14px 0px;">
           <div class="label-left">To</div>
           <div class="label-right">{{bookingResponse['locToText']}}</div>
         </div>
-        <div class="detail">
+        <div class="detail" style="margin: 14px 0px;">
           <div class="label-left">Vehicle</div>
           <div class="label-right">{{bookingResponse['vehicle']}}</div>
         </div>
-        <div class="detail">
+        <div class="detail" style="margin: 14px 0px;">
           <div class="label-left">Price</div>
           <div class="label-right">${{bookingResponse['price']}}</div>
         </div>
@@ -118,31 +118,47 @@
         <div class="sub-heading">
           RETURN
         </div>
-        <div class="detail">
+        <div class="detail" style="margin: 14px 0px;">
           <div class="label-left">From</div>
           <div class="label-right">{{bookingResponse['retLocFromText']}}</div>
         </div>
-        <div class="detail">
+        <div class="detail" style="margin: 14px 0px;">
           <div class="label-left">To</div>
           <div class="label-right">{{bookingResponse['retLocToText']}}</div>
         </div>
-        <div class="detail">
+        <div class="detail" style="margin: 14px 0px;">
           <div class="label-left">Vehicle</div>
           <div class="label-right">{{bookingResponse['vehicle']}}</div>
         </div>
-        <div class="detail">
+        <div class="detail" style="margin: 14px 0px;">
           <div class="label-left">Price</div>
           <div class="label-right">${{bookingResponse['retprice']}}</div>
         </div>
       </div>
-
+      <div>
+        <div class="detail" style="     margin-top: 30px;   border-top: 1px solid #ddd;
+        padding: 14px 0px;">
+          <div class="label-left">Sub Total</div>
+          <div class="label-right">${{sub_total}}</div>
+        </div>
+        <div class="detail" style="    border-top: 1px solid #ddd;
+        padding: 14px 0px;">
+          <div class="label-left">Coupon</div>
+          <div class="label-right">${{coupon_value}}</div>
+        </div>
+        <div class="detail" style="    border-top: 1px solid #ddd;
+        padding: 14px 0px;">
+          <div class="label-left">Total</div>
+          <div class="label-right">${{net_price}}</div>
+        </div>
+      </div>
     </div>
 
     <div style="padding: 16px;">
       <div style="font-size: 22px;
       font-weight: 500;">Have a Coupon?</div>
-      <ion-input style="background: white;" placeholder="Coupon code"></ion-input>
-      <ion-button style="color: white;">Apply Coupon</ion-button>
+      <ion-input style="background: white;" placeholder="Coupon code" [(ngModel)]="coupon_code"></ion-input>
+      <ion-button style="color: white;" (click)="validateCoupon()">Apply Coupon</ion-button>
     </div>
 
     <div style="padding: 16px;">
@@ -150,9 +166,9 @@
       font-weight: 500;">Extras</div>
       <ion-grid>
         <ion-row style="    border-bottom: 1px solid #ddd;
-        padding: 8px 0px;" class="ion-align-items-center" *ngFor="let extra of bookingResponse['extras'] ">
+        padding: 8px 0px;" class="ion-align-items-center" *ngFor="let extra of bookingResponse['extras'] " >
           <ion-col size="1">
-            <ion-checkbox style="    --checkmark-color: white"></ion-checkbox>
+            <ion-checkbox style="    --checkmark-color: white" (ionChange)="selectExtra($event,extra)"></ion-checkbox>
           </ion-col>
           <ion-col size="8">
             <div style="    display: flex;
@@ -167,7 +183,6 @@
               <div style="font-weight: 400;
               margin-left: 8px;">{{extra.ExtraName}}</div>
             </div>
-
           </ion-col>
           <ion-col size="3">
             <div>Unit Price</div>
@@ -176,11 +191,7 @@
         </ion-row>
       </ion-grid>
     </div>
-
-
   </div>
-
-
 
   <ion-modal [keepContentsMounted]="true">
     <ng-template>
@@ -196,17 +207,3 @@
     </ng-template>
   </ion-modal>
 </ion-content>
-<!-- 
-<ion-footer *ngIf="step == 2">
-  <ion-toolbar>
-    <div style="display: flex;
-  justify-content: space-between;">
-      <ion-button style="--color:white" (click)="goToStep(1)">
-        Prev
-      </ion-button>
-      <ion-button style="--color:white" (click)="checkout()">
-        Checkout
-      </ion-button>
-    </div>
-  </ion-toolbar>
-</ion-footer> -->

@@ -1,0 +1,116 @@
+.card-image {
+    // background-image: url('https://travicons.com/test-here/./assets/Uploads/3048.jpg');
+    width: 100%;
+    height: 38%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: 3px;
+}
+.information{
+    margin: 28px 12px;
+    .heading{
+        margin-top: 8px;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-grey-color-1);
+    }
+    .info{
+        display: flex;
+        align-items: center;
+        margin-top: 12px;
+        font-size: 17px;
+        ion-icon{
+            color: var(--ion-color-primary);
+        }
+    }
+}
+
+.segment-container{
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    color:  var(--text-grey-color-1);
+
+    .selected-segment{
+        border-left: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 0px solid #ddd;
+        width: 33%;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 5px 5px 0px 0px;
+    }
+    .unselected-segment{
+         border-left: 0px solid #ddd;
+        border-top: 0px solid #ddd;
+        border-right: 0px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        width: 33%;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+.form-container {
+    padding: 24px;
+    background: white;
+    margin: 12px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 29px 0px rgba(102, 102, 102, 0.1);
+    .heading {
+        margin: 10px 0px 32px 0px;
+        font-size: 26px;
+        font-weight: 500;
+    }
+
+    ion-label {
+        font-weight: 400;
+        font-size: 16px;
+        color: #4d4d4d;
+    }
+
+
+
+    .flight-time-input{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        height: 52px;
+        padding: 0px 12px;
+        margin-bottom: 18px;
+        margin-top: 14px;
+    }
+}
+
+ion-input, ion-select {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    margin-bottom: 18px;
+    margin-top: 14px;
+    color: var(--text-grey-color-2);
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    height: 52px;
+}
+
+.price{
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--ion-color-primary);
+    padding: 26px;
+    background: #f9f8fe;
+    border-radius: 3px;
+    border: 5px solid #ffffff;
+    box-shadow: 0px 0px 29px 0px rgba(102, 102, 102, 0.1);
+    margin: 12px 12px;
+}
+
+
+
+

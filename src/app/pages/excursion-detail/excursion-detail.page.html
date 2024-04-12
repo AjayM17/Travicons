@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <div class="header-container">
+      <ion-label>{{excursion.title}}</ion-label>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <div class="card-image"  [style.background-image]="'url(https://travicons.com/test-here/'+ excursion_picture + ')' "></div>
+  <div class="information">
+    <div class="heading"> Some Information</div>
+    <div class="info"> 
+      <ion-icon name="people-outline"></ion-icon> <span style="margin-left: 10px; font-weight: 500;">Max People:</span>  <span style="margin-left: 10px">{{excursion.max_people}}</span>
+    </div>
+    <div class="info"> 
+      <ion-icon name="warning-outline"></ion-icon> <span style="margin-left: 10px; font-weight: 500;">Min Age:</span>  <span style="margin-left: 10px">{{excursion.min_age}}</span>
+    </div>
+  </div>
+  <div class="segment-container">
+    <div [class]="selected_segment == 'description' ? 'selected-segment' : 'unselected-segment' " (click)="selectSegment('description')">
+      Description
+    </div>
+    <div [class]="selected_segment == 'included' ? 'selected-segment' : 'unselected-segment' " (click)="selectSegment('included')">
+      Included
+    </div>
+    <div [class]="selected_segment == 'bring' ? 'selected-segment' : 'unselected-segment' " (click)="selectSegment('bring')">
+     What to Bring
+    </div>
+  </div>
+  <div style="    padding: 14px;" [innerHTML]="segment_detail"></div>
+
+  <div class="price">
+   {{excursion.price}} / per <span *ngIf="excursion.is_yacht == 0; else other_content">person</span> <ng-template #other_content>hour</ng-template>
+  </div>
+  <div class="form-container">
+    <div class="heading"> Book Now</div>
+    <div class="flight-time-input">
+      <ion-label>Date</ion-label>
+      <ion-datetime-button datetime="date"></ion-datetime-button>
+    </div>
+
+    <div>
+      <ion-label>Adults</ion-label>
+      <ion-input [(ngModel)]="adults"  placeholder="Adults"></ion-input>
+    </div>
+
+    <div>
+      <ion-label>Kids</ion-label>
+      <ion-input [(ngModel)]="kids" placeholder="Kids"></ion-input>
+    </div>
+
+    <ion-select label="Hotel" (ionChange)="selectedLocation($event)">
+      <ion-select-option  [value]="location"
+        *ngFor="let location of locations">{{location['LocationName']}}</ion-select-option>
+    </ion-select>
+
+
+    <ion-select (ionChange)="selectPickupTime($event)" label="Pickup Timing" [disabled]="hotel == '' ? true : false" >
+      <ion-select-option    [value]="time"
+        *ngFor="let time of pickup_times">{{time}}</ion-select-option>
+    </ion-select>
+
+    <div *ngIf="excursion['is_yacht'] ==  1">
+      <ion-label>How much hours?</ion-label>
+      <ion-input  [(ngModel)]="hours" placeholder="hours"></ion-input>
+    </div>
+    <ion-button expand="block" style="--border-radius: 50px;    color: white;"  (click)="addToCart()">Add To Cart</ion-button>
+  </div>
+</ion-content>
+
+
+<ion-modal [keepContentsMounted]="true">
+  <ng-template>
+    <ion-datetime  [(ngModel)]="booking_date"  id="date" presentation="date" showDefaultButtons="true"></ion-datetime>
+  </ng-template>
+</ion-modal>

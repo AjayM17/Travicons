@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PaymentSheetEventsEnum, Stripe } from '@capacitor-community/stripe';
-import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpService } from '../http/http.service';
+import { Router } from '@angular/router';
 
 
 
@@ -11,14 +11,8 @@ import { HttpService } from '../http/http.service';
   providedIn: 'root'
 })
 export class PaymentService {
-  // data: any = {
-  //   name: 'Ajay',
-  //   email: 'ajaymandrawal17@gmail.com',
-  //   amount: 100,
-  //   currency: 'inr'
-  // };
 
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService, private router: Router) { }
 
   initializeStripe() {
     Stripe.initialize({
@@ -26,9 +20,9 @@ export class PaymentService {
     });
   }
 
- 
 
-  async paymentSheet(paymentIntent:any,customer:any,ephemeralKey:any) {
+
+  async paymentSheet(statusUrl:string, revCode:string, paymentIntent: any, customer: any, ephemeralKey: any) {
     // async paymentSheet() {
     /*
     With PaymentSheet, you can make payments in a single flow. 
@@ -42,7 +36,7 @@ export class PaymentService {
       Stripe.addListener(PaymentSheetEventsEnum.Completed, () => {
         console.log('PaymentSheetEventsEnum.Completed');
       });
-    
+
       // const data = new HttpParams({
       //   fromObject: this.data
       // });
@@ -78,10 +72,41 @@ export class PaymentService {
       console.log('result: ', result);
       if (result && result.paymentResult === PaymentSheetEventsEnum.Completed) {
         // Happy path
-        // this.splitAndJoin(paymentIntent);
+        this.updatePaymentStatus(statusUrl,revCode, paymentIntent, true)
+      } else {
+        this.updatePaymentStatus(statusUrl,revCode, paymentIntent, false)
       }
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
+  }
+
+  updatePaymentStatus(statusUrl:string, revCode:string, paymentIntent: string, status: boolean) {
+    this.httpService.showLoading()
+    const param = {
+      revCode: revCode,
+      status: status,
+      response: {
+        'paymentIntent': paymentIntent
+      }
+    }
+    //updateBookingPaymentStatus
+    this.httpService.postData(statusUrl, param).subscribe({
+      next: res => {
+        this.httpService.dismissLoading()
+        // this.paymentService.paymentSheet(res['paymentIntent'], res['customer'], res['ephemeralKey'])
+        this.router.navigate(['/tabs/home'], { replaceUrl: true });
+        alert(res['msg'])
+      },
+      error: () => {
+        this.httpService.dismissLoading()
+      }
+    })
+  }
+
+  splitAndJoin(paymentIntent: any) {
+    const result = paymentIntent.split('_').slice(0, 2).join('_');
+    console.log(result);
+    return result;
   }
 }

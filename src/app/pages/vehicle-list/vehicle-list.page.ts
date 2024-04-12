@@ -44,4 +44,12 @@ export class VehicleListPage implements OnInit {
     })
   }
 
+  getPrice(vehicle:any){
+    if(this.params['bkType'] == 'return'){
+        return (Number(vehicle['price']) + Number(vehicle['retPrice']))
+    } else {
+      return Number(vehicle['price'])
+    }
+  }
+
 }

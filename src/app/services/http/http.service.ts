@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, first } from 'rxjs';
-import { Excursion } from 'src/app/models/excursion.modal';
-import { Home } from 'src/app/models/home.modal';
 import { LoadingController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 
@@ -16,15 +14,17 @@ export class HttpService {
   bookingResponse: any = {}
   loading: HTMLIonLoadingElement | undefined;
   // vehicleList = []
-
+  private basdbsabxabahsdsshjsk = 'eESKPYIK8RXJhr9mGcTzWCXcKClklykP'
+  private dasdasdasdasdasd = ''
   constructor(private http: HttpClient, private loadingCtrl: LoadingController) { }
 
   getData(url: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL}${url}?random=${this.generateRandomString(8)}`)
+    return this.http.get(`${this.BASE_URL}${url}?random=${this.generateRandomString(8)}`,{headers:{Authorization: this.dasdasdasdasdasd}})
   }
 
   postData(url: string, params: {}): Observable<any> {
-    return this.http.post(`${this.BASE_URL}${url}?random=${this.generateRandomString(8)}`, params)
+    console.log(params)
+    return this.http.post(`${this.BASE_URL}${url}?random=${this.generateRandomString(8)}`, params,{headers:{Authorization: this.dasdasdasdasdasd}})
   }
 
   paymnetSheetHttp(body:any) {
@@ -57,5 +57,14 @@ export class HttpService {
     if(this.loading != null && this.loading != undefined){
       this.loading.dismiss()
     }
+  }
+
+  getbdasdas(){
+    return this.basdbsabxabahsdsshjsk
+  }
+
+  setdnmada(ddd:string){
+    console.log(ddd)
+    this.dasdasdasdasdasd = ddd
   }
 }

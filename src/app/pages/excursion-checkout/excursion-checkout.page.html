@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <div class="header-container">
+      <ion-label>Checkout</ion-label>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="form-container">
+    <form [formGroup]="checkOutForm" (ngSubmit)="checkout()">
+      <div class="heading">Billing Details</div>
+
+      <div>
+        <ion-label>First Name</ion-label>
+        <ion-input formControlName="firstName" placeholder="First Name"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Last Name</ion-label>
+        <ion-input formControlName="lastName" placeholder="Last Name"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Email</ion-label>
+        <ion-input formControlName="email" placeholder="Email"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Phone</ion-label>
+        <ion-input formControlName="phone" placeholder="Phone"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Additional Information</ion-label>
+        <ion-input formControlName="additionalInfo" placeholder="Additional Information"></ion-input>
+      </div>
+
+      <div>
+        <ion-label>Payment Method</ion-label>
+        <ion-select formControlName="paymentOption" label="Payment Method">
+          <ion-select-option value="Stripe">Stripe</ion-select-option>
+          <ion-select-option value="Pay Later">Pay Later</ion-select-option>
+        </ion-select>
+      </div>
+      <ion-button  type="submit" expand="block" class="checkout_btn">Checkout</ion-button>
+    </form>
+  </div>
+
+  <div>
+    <div class="billingInfo">
+      <div class="heading">Booking Summary</div>
+      <div class="detail" style="margin: 14px 0px;" *ngFor="let cart of carts">
+        <div class="label-left">{{cart.excursion_title}} ${{cart.price}}</div>
+        <div class="label-right">  ${{ getTotalprice(cart)}} </div>
+      </div>
+      <div>
+        <div class="detail" style="     margin-top: 30px;   border-top: 1px solid #ddd;
+        padding: 14px 0px;">
+          <div class="label-left">Sub Total</div>
+          <div class="label-right">${{sub_total}}</div>
+        </div>
+        <div class="detail" style="    border-top: 1px solid #ddd;
+        padding: 14px 0px;">
+          <div class="label-left">Coupon</div>
+          <div class="label-right">${{coupon_value}}</div>
+        </div>
+        <div class="detail" style="    border-top: 1px solid #ddd;
+        padding: 14px 0px;">
+          <div class="label-left">Total</div>
+          <div class="label-right">${{net_price}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 16px;">
+      <div style="font-size: 22px;
+      font-weight: 500;">Have a Coupon?</div>
+      <ion-input style="background: white;" placeholder="Coupon code" [(ngModel)]="coupon_code"></ion-input>
+      <ion-button style="color: white;" (click)="validateCoupon()">Apply Coupon</ion-button>
+    </div>
+
+
+  </div>
+
+</ion-content>
