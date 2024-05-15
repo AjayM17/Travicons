@@ -19,6 +19,7 @@ export class ContactPage implements OnInit {
     phone:''
   }
 
+  isLoading = true
   contactForm: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
@@ -28,13 +29,15 @@ export class ContactPage implements OnInit {
   constructor(private router: Router, private httpService: HttpService) { }
 
   ngOnInit() {
+    this.httpService.showLoading()
     this.httpService.getData('getContactPageData').subscribe({
       next: res => {
        this.contact = res
-       console.log(this.contact)
+       this.isLoading = false
+       this.httpService.dismissLoading()
       },
       error: () => {
-       
+        this.httpService.dismissLoading()
       }
     })
   }

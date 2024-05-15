@@ -4,10 +4,7 @@
 
 export const environment = {
   production: false,
-  stripe: {
-    
-  },
-  // api: 'http://your_ip_address:3000/'
+  api: 'https://cancunluxtransfer.com/'
 };
 
 /*

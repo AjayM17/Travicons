@@ -69,10 +69,10 @@
         <ion-input formControlName="phone" placeholder="Phone"></ion-input>
       </div>
 
-      <div>
+      <!-- <div>
         <ion-label>No. of Passenger</ion-label>
         <ion-input formControlName="noOfPassenger" placeholder="No. of Passenger" (change)="calculatePriceWithExtra()"></ion-input>
-      </div>
+      </div> -->
 
       <div>
         <ion-label>Additional Information</ion-label>
@@ -82,8 +82,8 @@
       <div>
         <ion-label>Payment Method</ion-label>
         <ion-select formControlName="paymentOption" label="Payment Method">
-          <ion-select-option value="Stripe">Stripe</ion-select-option>
-          <ion-select-option value="Pay Later">Pay Later</ion-select-option>
+          <ion-select-option value="Stripe">Credit Card</ion-select-option>
+          <!-- <ion-select-option value="Paypal">Paypal</ion-select-option> -->
         </ion-select>
       </div>
       <ion-button type="submit" expand="block" class="checkout_btn">Checkout</ion-button>
@@ -94,6 +94,10 @@
     <div class="billingInfo">
       <div class="heading">Booking Summary</div>
       <div>
+        <div class="detail" style="margin: 14px 0px;">
+          <div class="label-left">Passenger</div>
+          <div class="label-right">{{noOfPassenger}}</div>
+        </div>
         <div class="sub-heading">
           DEPARTURE
         </div>
@@ -175,7 +179,7 @@
             align-items: center;
             margin-left: 16px;">
               <div class="extra-image" *ngIf="extra['Picture'] != ''; else bottle_image"
-                [style.background-image]="'url(https://travicons.com/test-here/'+ extra['Picture'] + ')' "> </div>
+                [style.background-image]="'url(' + base_url + extra['Picture'] + ')' "> </div>
               <ng-template #bottle_image>
                 <div class="extra-image" style="background-image: url('https://via.placeholder.com/100x65');">
                 </div>
@@ -204,6 +208,25 @@
     <ng-template>
       <ion-datetime [(ngModel)]="retunrFlightTime" id="returnflighttime" presentation="time"
         showDefaultButtons="true"></ion-datetime>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="togglePaypalModal"  (willDismiss)="onPaypalModalWillDismiss()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <!-- <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons> -->
+          <!-- <ion-title>Welcome</ion-title> -->
+          <ion-buttons slot="end">
+            <ion-button (click)="onPaypalModalWillDismiss()" >Cancel</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ngx-paypal  
+      [config]="payPalConfig">
+    </ngx-paypal>
     </ng-template>
   </ion-modal>
 </ion-content>

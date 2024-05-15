@@ -12,6 +12,7 @@ import { PaymentService } from 'src/app/services/payment/payment.service';
 })
 export class RegistrationComponent implements OnInit {
 
+  @Input() inputId:string  = "867862";
   @Input() oneWayPickUpLocations: Location[] = []
   triptype: string = "oneway"
   oneWayDropLocations: Location[] = []
@@ -25,9 +26,9 @@ export class RegistrationComponent implements OnInit {
   oneWayTime = ''
   roundTripDate = new Date().toISOString().split('T')[0]
   roundTripTime = ''
+  noOfPassenger = ''
 
   constructor(private httpService: HttpService, private router: Router, private paymentService: PaymentService) {
-    console.log(this.oneWayTime)
   }
 
   ngOnInit() {
@@ -39,7 +40,7 @@ export class RegistrationComponent implements OnInit {
 
 
   onSegmentChange(event: any) {
-  //  this.paymentService.paymentSheet()
+    //  this.paymentService.paymentSheet()
     this.triptype = event.detail.value
     if (event.detail.value == 'roundtrip') {
       // this.getRoundTripLocation()
@@ -47,7 +48,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSelectPicupLocation(event: any, type: string) {
-    console.log(event.detail)
     if (type == 'oneway') {
       this.oneWayPickupLocationId = event.detail.value
     } else {
@@ -66,9 +66,7 @@ export class RegistrationComponent implements OnInit {
 
   getRoundTripLocation() {
     this.httpService.getData('/getRoundTripData').subscribe(res => {
-      // console.log(res)
       this.roundTripPickupLocations = res['returnPickUpLocations']
-      console.log(this.roundTripPickupLocations)
     })
   }
 
@@ -90,38 +88,43 @@ export class RegistrationComponent implements OnInit {
   }
 
   getVehiclesList() {
-    const params = {
-      bkdate: this.oneWayDate,
-      bktime: this.oneWayTime,
-      retdate: this.triptype == 'oneway' ? '' : this.roundTripDate,
-      rettime: this.triptype == 'oneway' ? '' : this.roundTripTime,
-      locFrom: Number(this.oneWayPickupLocationId),
-      locTo: Number(this.oneWayDropLocationId),
-      retLocFrom: this.triptype == 'oneway' ? '' : Number(this.roundTripPickupLocationId),
-      retLocTo: this.triptype == 'oneway' ? '' : Number(this.roundTripDropLocationId),
-      bkType: this.triptype == 'oneway' ? 'oneway' : 'return',
-    }
-
-    console.log(params)
-    this.httpService.showLoading()
-    this.httpService.postData('showVehiclesForBooking', params).subscribe({
-      next: res => {
-        this.httpService.dismissLoading()
-        this.httpService.vehicleListResponse = res
-        console.log(this.httpService.vehicleListResponse)
-        if(res['vehicles'].length != 0){
-          this.router.navigate(['/vehicle-list']);
-        } else {
-          alert('No vehicle available')
-        }
-      },
-      error: () => {
-        this.httpService.dismissLoading()
+    if(this.checkDateAndTime()){
+      const params = {
+        passenger: this.noOfPassenger,
+        bkdate: this.oneWayDate,
+        bktime: this.oneWayTime,
+        retdate: this.triptype == 'oneway' ? '' : this.roundTripDate,
+        rettime: this.triptype == 'oneway' ? '' : this.roundTripTime,
+        locFrom: Number(this.oneWayPickupLocationId),
+        locTo: Number(this.oneWayDropLocationId),
+        retLocFrom: this.triptype == 'oneway' ? '' : Number(this.roundTripPickupLocationId),
+        retLocTo: this.triptype == 'oneway' ? '' : Number(this.roundTripDropLocationId),
+        bkType: this.triptype == 'oneway' ? 'oneway' : 'return',
       }
-    })
+      this.httpService.showLoading()
+      this.httpService.postData('showVehiclesForBooking', params).subscribe({
+        next: res => {
+          this.httpService.dismissLoading()
+          this.httpService.vehicleListResponse = res
+          this.httpService.noOfPassenger = this.noOfPassenger
+          if (res['vehicles'].length != 0) {
+            this.router.navigate(['/vehicle-list']);
+          } else {
+            alert('No vehicle available')
+          }
+        },
+        error: () => {
+          this.httpService.dismissLoading()
+        }
+      })
+    } 
+   
   }
 
   isDisabled() {
+    if (this.noOfPassenger.trim() == '' || this.noOfPassenger == '0') {
+      return true
+    }
     if (this.triptype == 'oneway') {
       if (this.oneWayDropLocationId != '') {
         return false
@@ -132,6 +135,29 @@ export class RegistrationComponent implements OnInit {
         return false
       }
       return true
+    }
+  }
+
+  checkDateAndTime() {
+    let bookingDateTime = new Date(this.oneWayDate + ' ' + this.oneWayTime);
+    let currentDateTime = new Date();
+
+    let difference = bookingDateTime.getTime() - currentDateTime.getTime();
+
+    if (difference < 0) {
+      alert('Cannot book for past Date and Time');
+      return false
+    }
+    else {
+      difference = difference / 1000;
+      let hourDifference = Math.floor(difference / 60);
+      if (hourDifference > 900) {
+        return true
+      }
+      else {
+        alert('Cannot book within next 15 hours');
+        return false;
+      }
     }
   }
 

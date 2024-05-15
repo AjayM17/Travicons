@@ -38,7 +38,6 @@ export class ExcursionCheckoutPage implements OnInit {
   }
   async ionViewWillEnter() {
     this.carts = await this.storageService.getCartItem()
-    console.log(this.carts)
     this.getSubTotal()
     this.calculateNetPrice()
   }
@@ -129,7 +128,6 @@ export class ExcursionCheckoutPage implements OnInit {
       this.httpService.postData('checkoutCart', param).subscribe({
         next: res => {
           this.httpService.dismissLoading()
-          console.log(res)
           if (this.checkOutForm.get('paymentOption')?.value == 'Stripe') {
             this.paymentService.paymentSheet('updateCartPaymentStatus',res['revCode'], res['paymentIntent'], res['customer'], res['ephemeralKey'])
           } else {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http/http.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -11,10 +12,16 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 })
 export class ExcursionDetailPage implements OnInit {
 
-  hotel:any
+  base_url = environment.api
+  hotel = {
+    CityName:'',
+    IDLocation:'',
+    LocationName:'',
+    pickup_timing:''
+  }
   booking_date = new Date().toISOString().split('T')[0]
-  kids = 0
-  adults = 0
+  kids = ''
+  adults = ''
   pickup_time:string = ''
   hours:number = 0
   slug:string = ''
@@ -39,7 +46,6 @@ export class ExcursionDetailPage implements OnInit {
   constructor(private router: Router, private storageService:StorageService, private activatedRoute: ActivatedRoute, private httpService: HttpService) { 
     activatedRoute.params.subscribe( params => {
       this.slug = params['slug']
-      console.log(this.slug)
       this.getExcursionDetail()
     })
   }
@@ -64,7 +70,6 @@ export class ExcursionDetailPage implements OnInit {
       next: res => {
         this.excursion = res['excursion']
         this.segment_detail = this.excursion['description']
-        console.log(res)
         this.excursion_picture = res['excursion_pictures'][0]['path']
         this.locations = res['locations']
         this.httpService.dismissLoading()
@@ -76,20 +81,18 @@ export class ExcursionDetailPage implements OnInit {
   }
 
   selectedLocation(event:any){
-    console.log(event.detail.value)
     this.pickup_times = event.detail.value['pickup_timing'].split(',')
     this.hotel = event.detail.value
-    console.log(this.pickup_times)
+    console.log(this.hotel)
   }
 
   selectPickupTime(event:any){
     this.pickup_time = event.detail.value
-    console.log(this.pickup_time)
   }
 
   addToCart(){
-    console.log(this.booking_date)
-    if(this.hotel == ''){
+    console.log(this.hotel)
+    if(this.hotel.IDLocation == ''){
       alert('Please Select Hotel')
       return
     }

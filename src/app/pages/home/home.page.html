@@ -8,8 +8,17 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <!-- <button *ngIf="!showPaypalButtons" 
+  (click)="pay()">Pagar con paypal</button> -->
+
+
+<!-- <ngx-paypal  
+  [config]="payPalConfig">
+</ngx-paypal>
+<button  *ngIf="showPaypalButtons" (click)="back()">Volver atras</button> -->
+
   <div>
-    <app-registration [oneWayPickUpLocations]="pickUpLocations"></app-registration>
+    <app-registration [inputId]="'345435'" [oneWayPickUpLocations]="pickUpLocations"></app-registration>
   </div>
   <div class="heading-container">
     <div class="heading">Our Services</div>
@@ -39,7 +48,7 @@
     <span class="more" routerLink="/tabs/excursions">See all <ion-icon name="chevron-forward-outline"></ion-icon></span>
   </div>
   <div class="scroll-container">
-    <app-card class="medium-card" *ngFor="let excursion of excursions"  [excursion]="excursion">
+    <app-card class="medium-card" *ngFor="let excursion of excursions" [routerLink]="['/excursion-detail', excursion.slug]"  [excursion]="excursion">
     </app-card>
   </div>
 </ion-content>

@@ -41,6 +41,10 @@
             *ngFor="let location of oneWayDropLocations">{{location['LocationName']}}</ion-select-option>
         </ion-select>
       </ion-item>
+      <ion-item>
+          <!-- <ion-label>No. of Passenger</ion-label> -->
+          <ion-input [(ngModel)]="noOfPassenger"  placeholder="No. of Passenger"></ion-input>
+      </ion-item>
     </ion-list>
   </div>
   <div *ngIf="triptype == 'roundtrip'">

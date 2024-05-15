@@ -8,6 +8,7 @@ import { HttpService } from 'src/app/services/http/http.service';
 })
 export class AboutUsPage implements OnInit {
 
+  isLoading = true
   aboutus={
     heading:'',
     content:'',
@@ -29,13 +30,15 @@ export class AboutUsPage implements OnInit {
   constructor(private httpService: HttpService) { }
 
   ngOnInit() {
+    this.httpService.showLoading()
     this.httpService.getData('getAboutPageData').subscribe({
       next: res => {
         this.aboutus = res
-       console.log(res)
+        this.isLoading = false
+       this.httpService.dismissLoading()
       },
       error: () => {
-       
+        this.httpService.dismissLoading()
       }
     })
   }

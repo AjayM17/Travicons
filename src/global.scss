@@ -27,7 +27,8 @@
 
 ion-content{
   // --background:white;
- --background: hsl(199.83deg 53.45% 76.32% / 15%);
+//  --background: hsl(199.83deg 53.45% 76.32% / 15%);
+--background: hsl(200 53% 96% / 1);
 }
 
 .cart-card {
@@ -128,7 +129,7 @@ ion-toolbar {
   .header-container {
     display: flex;
     align-items: center;
-    padding: 24px;
+   height: 56px;
     justify-content: center;
     position: relative;
     img {

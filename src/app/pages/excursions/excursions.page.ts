@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Excursion } from 'src/app/models/excursion.modal';
 import { Home } from 'src/app/models/home.modal';
 import { HttpService } from 'src/app/services/http/http.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-excursions',
@@ -11,6 +12,7 @@ import { HttpService } from 'src/app/services/http/http.service';
 export class ExcursionsPage implements OnInit {
 
   excursions : Excursion[] = []
+  base_url = environment.api
   constructor(private httpService: HttpService) { }
 
   ngOnInit() {

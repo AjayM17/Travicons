@@ -1,0 +1,94 @@
+PODS:
+  - Capacitor (5.7.0):
+    - CapacitorCordova
+  - CapacitorApp (5.0.7):
+    - Capacitor
+  - CapacitorCommunityStripe (5.5.1):
+    - Capacitor
+    - StripeApplePay (~> 23.24.0)
+    - StripePaymentSheet (~> 23.24.0)
+  - CapacitorCordova (5.7.0)
+  - CapacitorHaptics (5.0.7):
+    - Capacitor
+  - CapacitorKeyboard (5.0.8):
+    - Capacitor
+  - CapacitorSplashScreen (5.0.7):
+    - Capacitor
+  - CapacitorStatusBar (5.0.7):
+    - Capacitor
+  - StripeApplePay (23.24.1):
+    - StripeCore (= 23.24.1)
+  - StripeCore (23.24.1)
+  - StripePayments (23.24.1):
+    - StripeCore (= 23.24.1)
+    - StripePayments/Stripe3DS2 (= 23.24.1)
+  - StripePayments/Stripe3DS2 (23.24.1):
+    - StripeCore (= 23.24.1)
+  - StripePaymentSheet (23.24.1):
+    - StripeApplePay (= 23.24.1)
+    - StripeCore (= 23.24.1)
+    - StripePayments (= 23.24.1)
+    - StripePaymentsUI (= 23.24.1)
+  - StripePaymentsUI (23.24.1):
+    - StripeCore (= 23.24.1)
+    - StripePayments (= 23.24.1)
+    - StripeUICore (= 23.24.1)
+  - StripeUICore (23.24.1):
+    - StripeCore (= 23.24.1)
+
+DEPENDENCIES:
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
+  - "CapacitorCommunityStripe (from `../../node_modules/@capacitor-community/stripe`)"
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorHaptics (from `../../node_modules/@capacitor/haptics`)"
+  - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
+  - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
+  - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
+
+SPEC REPOS:
+  trunk:
+    - StripeApplePay
+    - StripeCore
+    - StripePayments
+    - StripePaymentSheet
+    - StripePaymentsUI
+    - StripeUICore
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorApp:
+    :path: "../../node_modules/@capacitor/app"
+  CapacitorCommunityStripe:
+    :path: "../../node_modules/@capacitor-community/stripe"
+  CapacitorCordova:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorHaptics:
+    :path: "../../node_modules/@capacitor/haptics"
+  CapacitorKeyboard:
+    :path: "../../node_modules/@capacitor/keyboard"
+  CapacitorSplashScreen:
+    :path: "../../node_modules/@capacitor/splash-screen"
+  CapacitorStatusBar:
+    :path: "../../node_modules/@capacitor/status-bar"
+
+SPEC CHECKSUMS:
+  Capacitor: fc155ee2ee45a2093d716f13cf5aa5a865e2d85a
+  CapacitorApp: 17fecd0e6cb23feafac7eb0939417389038b0979
+  CapacitorCommunityStripe: c7a8f34b5118d16f7de8bf7a343f33c4516323b1
+  CapacitorCordova: e825fce1a2e14e4b5730641c7e098dccf74397b7
+  CapacitorHaptics: 7c7c206f0c96a628fed073830c96d28c4b2e772e
+  CapacitorKeyboard: aec619a578235c6ce279075009a2689c2cf5c42c
+  CapacitorSplashScreen: dd3de3f3644710fa2a697cfb91ec262eece4d242
+  CapacitorStatusBar: f390fbb49b82ffb754ea4b3cf71dc8b048baf3e7
+  StripeApplePay: ffc296e6eba1d9ce86e4b5c4733540bce6f1b3eb
+  StripeCore: 7c9042ecbca0ef4e8073de00d3c84255d6b87e92
+  StripePayments: 4fdc6b22595887753851aee425dc9aafad39e8ef
+  StripePaymentSheet: 9f433a11fa6578939c555b6a56c87b7a958845d6
+  StripePaymentsUI: 42a4c50bd30a19c102685eeb7269a52c71a79bb3
+  StripeUICore: 510afeb8f0cb8ba5f99563a23c5ad6cc7f58a007
+
+PODFILE CHECKSUM: c069471054ad1f8b5139bbd020d66f319336ca54
+
+COCOAPODS: 1.15.2

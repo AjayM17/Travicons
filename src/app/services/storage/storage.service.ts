@@ -23,10 +23,8 @@ export class StorageService {
 
   async addCartItem(cartItem: any) {
     let cart: any[] = await this.getCartItem()
-    console.log(cart)
     if (cart == null) {
       cart = []
-      console.log('----blank---')
     }
     const excursionIndex = cart.findIndex(item => item['excursion_id'] == cartItem['excursion_id'])
     if (excursionIndex == -1) {
@@ -53,7 +51,6 @@ export class StorageService {
     } else {
       cart = []
     }
-    console.log(cart)
     return cart
   }
   

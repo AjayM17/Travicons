@@ -9,22 +9,21 @@ import { environment } from 'src/environments/environment';
 })
 export class HttpService {
 
-  private BASE_URL = 'https://travicons.com/test-here/'
+  private BASE_URL = environment.api
   vehicleListResponse: any = {}
   bookingResponse: any = {}
+  noOfPassenger:string = ''
   loading: HTMLIonLoadingElement | undefined;
-  // vehicleList = []
-  private basdbsabxabahsdsshjsk = 'eESKPYIK8RXJhr9mGcTzWCXcKClklykP'
-  private dasdasdasdasdasd = ''
+  private rts = 'eESKPYIK8RXJhr9mGcTzWCXcKClklykP'
+  private tv = ''
   constructor(private http: HttpClient, private loadingCtrl: LoadingController) { }
 
   getData(url: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL}${url}?random=${this.generateRandomString(8)}`,{headers:{Authorization: this.dasdasdasdasdasd}})
+    return this.http.get(`${this.BASE_URL}${url}?random=${this.generateRandomString(8)}`,{headers:{Authorization: this.tv}})
   }
 
   postData(url: string, params: {}): Observable<any> {
-    console.log(params)
-    return this.http.post(`${this.BASE_URL}${url}?random=${this.generateRandomString(8)}`, params,{headers:{Authorization: this.dasdasdasdasdasd}})
+    return this.http.post(`${this.BASE_URL}${url}?random=${this.generateRandomString(8)}`, params,{headers:{Authorization: this.tv}})
   }
 
   paymnetSheetHttp(body:any) {
@@ -59,12 +58,11 @@ export class HttpService {
     }
   }
 
-  getbdasdas(){
-    return this.basdbsabxabahsdsshjsk
+  getRts(){
+    return this.rts
   }
 
-  setdnmada(ddd:string){
-    console.log(ddd)
-    this.dasdasdasdasdasd = ddd
+  setTv(tv:string){
+    this.tv = tv
   }
 }

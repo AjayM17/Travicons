@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IonModal } from '@ionic/angular';
+import { IPayPalConfig, ICreateOrderRequest } from 'ngx-paypal';
 import { HttpService } from 'src/app/services/http/http.service';
 import { PaymentService } from 'src/app/services/payment/payment.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-checkout',
@@ -10,7 +13,10 @@ import { PaymentService } from 'src/app/services/payment/payment.service';
   styleUrls: ['./checkout.page.scss'],
 })
 export class CheckoutPage implements OnInit {
-
+  breakpoint = 0.3
+  @ViewChild(IonModal) modal: IonModal|any;
+  base_url = environment.api
+  payPalConfig?: IPayPalConfig;
   step = 1
   bookingResponse: any = {}
   extras: any = []
@@ -28,6 +34,9 @@ export class CheckoutPage implements OnInit {
   extra_price = 0
   sub_total = 0
   net_price = 0
+  noOfPassenger = ''
+  booking_id= ''
+  paypal_refcode = ''
   checkOutForm: FormGroup = new FormGroup({
     airLineName: new FormControl('', Validators.required),
     flightNumber: new FormControl('', Validators.required),
@@ -39,19 +48,19 @@ export class CheckoutPage implements OnInit {
     lastName: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
     phone: new FormControl('', Validators.required),
-    noOfPassenger: new FormControl('', Validators.required),
+    // noOfPassenger: new FormControl('', Validators.required),
     additionalInfo: new FormControl(''),
     paymentOption: new FormControl('', Validators.required)
   })
 
+  togglePaypalModal = false
   constructor(private httpService: HttpService, private router: Router, private paymentService: PaymentService) {
     this.bookingResponse = httpService.bookingResponse
-    console.log(this.bookingResponse)
-    // console.log(JSON.stringify(this.bookingResponse))
-
   }
 
   ngOnInit() {
+    this.noOfPassenger = this.httpService.noOfPassenger
+    this.initConfig()
     this.flightTime = this.httpService.getCurrentTime()
     this.checkOutForm.patchValue({
       airLineName: this.bookingResponse['flightname']['0']['AirlineName']
@@ -84,6 +93,8 @@ export class CheckoutPage implements OnInit {
   }
 
   checkout() {
+    // this.togglePaypalModal = !this.togglePaypalModal
+    // return
     if (this.checkOutForm.valid) {
       const param = {
         bkType: this.bookingResponse['bkType'],
@@ -106,7 +117,7 @@ export class CheckoutPage implements OnInit {
         sname: this.checkOutForm.get('lastName')?.value,
         email: this.checkOutForm.get('email')?.value,
         phone: this.checkOutForm.get('phone')?.value,
-        passenger: this.checkOutForm.get('noOfPassenger')?.value,
+        passenger: this.noOfPassenger,
         notes: this.checkOutForm.get('additionalInfo')?.value,
         coupon_code: this.coupon_code,
         coupon_type: this.coupon_details['coupon_type'],
@@ -122,20 +133,22 @@ export class CheckoutPage implements OnInit {
         "stripe_token": "",
       }
 
-      
+      console.log(param)
       this.httpService.showLoading()
       this.httpService.postData('checkout', param).subscribe({
         next: res => {
+          console.log(res)
           this.httpService.dismissLoading()
           if(this.checkOutForm.get('paymentOption')?.value == 'Stripe'){
             this.paymentService.paymentSheet('updateBookingPaymentStatus',res['revCode'], res['paymentIntent'], res['customer'], res['ephemeralKey'])
           } else {
-            // this.paymentService.updatePaymentStatus(res['revCode'],'',false)
-          this.router.navigate(['/tabs/home'],{replaceUrl:true});
-          alert(res['msg'])
+            this.paypal_refcode = res['revCode']
+            this.booking_id = res['bookingId']
+            this.togglePaypalModal = true
           }
         },
-        error: () => {
+        error: (err) => {
+          console.log(err)
           this.httpService.dismissLoading()
         }
       })
@@ -145,9 +158,6 @@ export class CheckoutPage implements OnInit {
   }
 
   selectExtra(event: any, extra: any) {
-    if (this.checkOutForm.get('noOfPassenger')?.value == 0) {
-      alert('Enter No. of  Passenger')
-    }
     const extra_index = this.extras.findIndex((ele: any) => ele['IDExtra'] == extra['IDExtra'])
  
     if (event['detail']['checked']) {
@@ -167,7 +177,7 @@ export class CheckoutPage implements OnInit {
   calculatePriceWithExtra() {
      this.extra_price = 0
     for (let index in this.extras) {
-      this.extra_price += (Number(this.extras[index]['UnitPrice']) * Number(this.checkOutForm.get('noOfPassenger')?.value))
+      this.extra_price += (Number(this.extras[index]['UnitPrice']) * Number(this.noOfPassenger))
     }
     // this.bookingResponse['price'] = Number(this.bookingResponse['price']) + extra_price
     this.calculateNetPrice()
@@ -223,5 +233,76 @@ export class CheckoutPage implements OnInit {
     })
   }
 
+  onPaypalModalWillDismiss() {
+    // const ev = event as CustomEvent<OverlayEventDetail<string>>;
+   this.togglePaypalModal = false
+  }
+
+
+  private initConfig(): void {
+    this.payPalConfig = {
+    currency: this.paymentService.paypalConfig.currency,
+    clientId: this.paymentService.paypalConfig.clientId,
+    createOrderOnClient: (data) => <ICreateOrderRequest>{
+      intent: 'CAPTURE',
+      purchase_units: [
+        {
+          custom_id: this.booking_id,
+          amount: {
+            currency_code: this.paymentService.paypalConfig.currency_code,
+            value: this.net_price.toString(),
+            breakdown: {
+              item_total: {
+                currency_code: this.paymentService.paypalConfig.currency_code,
+                value: this.net_price.toString()
+              }
+            }
+          },
+          items: [
+            {
+              name: 'Transportation',
+              quantity: '1',
+              category: 'DIGITAL_GOODS',
+              unit_amount: {
+                currency_code: this.paymentService.paypalConfig.currency_code,
+                value: this.net_price.toString(),
+              },
+            }
+          ]
+        }
+      ]
+    },
+    advanced: {
+      commit: 'true'
+    },
+    style: {
+      label: 'paypal',
+      layout: 'vertical'
+    },
+    onApprove: (data, actions) => {
+      console.log('onApprove - transaction was approved, but not authorized', data, actions);
+      actions.order.get().then((details:any) => {
+        this.togglePaypalModal = false
+        this.paymentService.updatePaypalPaymentStatus('updateBookingPaymentStatusPaypal',this.paypal_refcode,details['id'])
+        console.log('onApprove - you can get full order details inside onApprove: ', details);
+      });
+    },
+    onClientAuthorization: (data) => {
+      console.log(data)
+      console.log('onClientAuthorization - you should probably inform your server about completed transaction at this point', data);
+      
+      // this.showSuccess = true;
+    },
+    onCancel: (data, actions) => {
+      console.log('OnCancel', data, actions);
+    },
+    onError: err => {
+      console.log('OnError', err);
+    },
+    onClick: (data, actions) => {
+      console.log('onClick', data, actions);
+    },
+  };
+  }
 }
 

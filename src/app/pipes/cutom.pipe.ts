@@ -33,7 +33,6 @@ export class ReturnFirstUrlPipe implements PipeTransform {
     return ''
    }
     const str_array = value.split(',')
-    console.log(str_array)
     return str_array[0]
   }
 }

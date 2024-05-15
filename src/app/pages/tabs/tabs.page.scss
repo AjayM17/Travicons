@@ -1,15 +1,19 @@
-ion-tab-bar{
+ion-tab-bar {
     padding: 4px;
 }
-ion-tab-button{
-    --color:var(--text-grey-color-3);
-    ion-icon{
+ion-tab-bar.ios {
+    padding-bottom: 16px;
+}
+
+ion-tab-button {
+    --color: var(--text-grey-color-3);
+    ion-icon {
         font-size: 24px;
     }
-    ion-icon[name="airplane-outline"]{
+    ion-icon[name="airplane-outline"] {
         transform: rotate(327deg);
     }
-    ion-label{
+    ion-label {
         font-size: 13px;
     }
 }

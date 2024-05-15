@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-card *ngFor="let excursion of excursions" [routerLink]="['/excursion-detail', excursion.slug]">
-    <div class="card-image" [style.background-image]="'url(https://travicons.com/test-here/'+ (excursion['pictures'] | returnFirstUrl) + ')' "></div>
+    <div class="card-image" [style.background-image]="'url('+ base_url + (excursion['pictures'] | returnFirstUrl) + ')' "></div>
     <ion-card-header>
       <ion-card-title>{{excursion.title}}</ion-card-title>
       <ion-card-subtitle>{{excursion.CityName}}</ion-card-subtitle>

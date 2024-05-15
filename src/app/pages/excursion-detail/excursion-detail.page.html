@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content >
-  <div class="card-image"  [style.background-image]="'url(https://travicons.com/test-here/'+ excursion_picture + ')' "></div>
+  <div class="card-image"  [style.background-image]="'url('+ base_url + excursion_picture + ')' "></div>
   <div class="information">
     <div class="heading"> Some Information</div>
     <div class="info"> 
@@ -59,7 +59,7 @@
     </ion-select>
 
 
-    <ion-select (ionChange)="selectPickupTime($event)" label="Pickup Timing" [disabled]="hotel == '' ? true : false" >
+    <ion-select (ionChange)="selectPickupTime($event)" label="Pickup Timing" [disabled]="hotel.IDLocation == '' ? true : false" >
       <ion-select-option    [value]="time"
         *ngFor="let time of pickup_times">{{time}}</ion-select-option>
     </ion-select>

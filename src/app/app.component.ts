@@ -14,26 +14,35 @@ export class AppComponent {
   showSplashLoader = true
   constructor(private httpService:HttpService, private storageService: StorageService, private platform:Platform, private router: Router, private paymentService: PaymentService) {
     StatusBar.setBackgroundColor({color:'009eec'})
-    platform.ready().then(()=> {
+    platform.ready().then(async ()=> {
       document.body.classList.remove('dark');
-     httpService.postData('/AuthAPI/generateTo',{random:httpService.getbdasdas()})
-     .subscribe({
-      next : res => {
-        httpService.setdnmada(res['to'])
-        console.log(res['to'])
-        paymentService.initializeStripe()
-        storageService.init()
-        this.router.navigate(['tabs'])
-        setTimeout(() => {
-          this.showSplashLoader =false
-        },1500)
+      const tres = await  httpService.postData('/AuthAPI/generateTo',{random:httpService.getRts()})
+      tres.subscribe({
+        next : res => {
 
-      },
-      error: () => {
-       
-      }
+          httpService.setTv(res['to'])
+          this.getRandomString()
+          
+          storageService.init()
+          this.router.navigate(['tabs'])
+          setTimeout(() => {
+            this.showSplashLoader =false
+          },1500)
+  
+        },
+        error: () => {
+         
+        }
+      })
     })
- 
+  }
+
+  async getRandomString(){
+    const res = await this.httpService.getData('getRandomString')
+    res.subscribe( res => {
+      console.log(res)
+      this.paymentService.setRandomPk(res['pk'])
+      this.paymentService.initializeStripe()
     })
   }
 }

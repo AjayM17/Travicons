@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http/http.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -10,18 +11,20 @@ import { HttpService } from 'src/app/services/http/http.service';
 })
 export class VehicleListPage implements OnInit {
 
+  base_url = environment.api
   vehicleList = []
   params: any = {}
   constructor(private httpService: HttpService, private router: Router) { }
 
   ngOnInit() {
     this.params = this.httpService.vehicleListResponse
-    this.vehicleList = this.params['vehicles']
     console.log(this.params)
+    this.vehicleList = this.params['vehicles']
   }
 
   bookCar(vehicle: any) {
     const params = {
+      passenger:this.httpService.noOfPassenger,
       bkdate: this.params['bkdate'],
       bktime: this.params['bktime'],
       retdate: this.params['retdate'],
@@ -34,10 +37,7 @@ export class VehicleListPage implements OnInit {
       pricingID: vehicle['pricingID']
     }
 
-    console.log(params)
-
     this.httpService.postData('setCarForBooking', params).subscribe(res => {
-      console.log(res)
       this.httpService.bookingResponse = res
       this.router.navigate(['/checkout']);
 

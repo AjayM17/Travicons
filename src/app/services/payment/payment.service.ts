@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { PaymentSheetEventsEnum, Stripe } from '@capacitor-community/stripe';
-import { environment } from 'src/environments/environment';
 import { HttpService } from '../http/http.service';
 import { Router } from '@angular/router';
 
@@ -11,12 +10,18 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class PaymentService {
-
+  
+  paypalConfig ={
+    currency: "USD",
+    clientId: "AY-oGUD6mV_rLMUIL7FqS8YImZnskc-vhcsD7WPEa8uGNBA4-kI5GdTRQ1tG5T2IU1Jqz6sqpz0rgJvS",
+    currency_code: "USD"
+  }
+  private randompk = ''
   constructor(private httpService: HttpService, private router: Router) { }
 
   initializeStripe() {
     Stripe.initialize({
-      publishableKey: environment.stripe.publishableKey,
+      publishableKey: this.randompk,
     });
   }
 
@@ -34,7 +39,7 @@ export class PaymentService {
     try {
       // be able to get event of PaymentSheet
       Stripe.addListener(PaymentSheetEventsEnum.Completed, () => {
-        console.log('PaymentSheetEventsEnum.Completed');
+      
       });
 
       // const data = new HttpParams({
@@ -45,7 +50,7 @@ export class PaymentService {
 
       // const { paymentIntent, ephemeralKey, customer } = await lastValueFrom(data$);
 
-      // console.log('paymentIntent: ', paymentIntent);
+  
 
       await Stripe.createPaymentSheet({
         paymentIntentClientSecret: paymentIntent,
@@ -66,10 +71,10 @@ export class PaymentService {
       //   merchantDisplayName: 'Travions'
       // });
 
-      console.log('createPaymentSheet');
+     
       // present PaymentSheet and get result.
       const result = await Stripe.presentPaymentSheet();
-      console.log('result: ', result);
+   
       if (result && result.paymentResult === PaymentSheetEventsEnum.Completed) {
         // Happy path
         this.updatePaymentStatus(statusUrl,revCode, paymentIntent, true)
@@ -77,7 +82,7 @@ export class PaymentService {
         this.updatePaymentStatus(statusUrl,revCode, paymentIntent, false)
       }
     } catch (e) {
-      console.log(e);
+   
     }
   }
 
@@ -106,7 +111,34 @@ export class PaymentService {
 
   splitAndJoin(paymentIntent: any) {
     const result = paymentIntent.split('_').slice(0, 2).join('_');
-    console.log(result);
+
     return result;
   }
+
+  setRandomPk(pk:string){
+    this.randompk =pk
+   
+  }
+
+
+  updatePaypalPaymentStatus(statusUrl:string, revCode:string, orderId: string) {
+    this.httpService.showLoading()
+    const param = {
+      revCode: revCode,
+      orderId: orderId
+    }
+   console.log(param)
+    this.httpService.postData(statusUrl, param).subscribe({
+      next: res => {
+        this.httpService.dismissLoading()
+        // this.paymentService.paymentSheet(res['paymentIntent'], res['customer'], res['ephemeralKey'])
+        this.router.navigate(['/tabs/home'], { replaceUrl: true });
+        alert(res['msg'])
+      },
+      error: () => {
+        this.httpService.dismissLoading()
+      }
+    })
+  }
+
 }

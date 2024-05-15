@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="container">
+  <div class="container" *ngIf="!isLoading">
     <div class="text-container">
       <h2 style="text-align: center;">{{contact.form_heading}} </h2>
       <p style="margin: 24px 0px;">{{contact.form_text}}</p>

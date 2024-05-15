@@ -38,7 +38,6 @@ export class CartPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log('-----')
     this.httpService.showLoading()
     
     this.httpService.getData('getHomePageData?random=havsh123').subscribe({
@@ -60,7 +59,6 @@ export class CartPage implements OnInit {
   async ionViewWillEnter(){
     this.carts = await this.storageService.getCartItem()
     this.getNetTotal()
-    console.log(this.carts)
   }
 
 
